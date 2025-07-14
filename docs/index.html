@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="Quantile Reward Policy Optimization (QRPO): LLM Alignment with Pointwise Regression and Exact Partition Functions">
+  <meta property="og:title" content="Quantile Reward Policy Optimization" />
+  <meta property="og:description" content="Alignment with Pointwise Regression and Exact Partition Functions" />
+  <meta property="og:url" content="https://claire-labo.github.io/quantile-reward-policy-optimization" />
+  <meta property="og:image" content="static/images/sketch.png" />
+  <meta property="og:image:width" content="4970" />
+  <meta property="og:image:height" content="1952" />
+
+  <meta name="twitter:title" content="Quantile Reward Policy Optimization">
+  <meta name="twitter:description" content="Alignment with Pointwise Regression and Exact Partition Functions">
+  <meta name="twitter:image" content="static/images/sketch.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="keywords"
+    content="quantile reward policy optimization, qrpo, large language model, reinforcement learning, alignment, quantile reward, partition function, offline fine-tuning, off-policy alignment, length bias">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Quantile Reward Policy Optimization (QRPO)</title>
+  <link rel="icon" type="image/x-icon" href="static/images/logo-epfl.svg">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+  <style>
+    @media screen and (min-width: 769px) {
+      .desktop-resize-80 {
+        width: 80% !important;
+      }
+      .desktop-resize-90 {
+        width: 90% !important;
+      }
+      .desktop-resize-60 {
+        width: 60% !important;
+      }
+      .desktop-resize-50 {
+        width: 50% !important;
+      }
+      .desktop-resize-84 {
+        width: 84% !important;
+      }
+      .desktop-resize-110 {
+        width: 110% !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Quantile Reward Policy Optimization: Alignment with Pointwise
+              Regression and Exact Partition Functions
+            </h1>
+
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/simon-matrenok-b826b9218" target="_blank">Simon
+                  Matrenok</a><sup>*</sup>,</span>
+              <span class="author-block">
+                <a href="https://people.epfl.ch/skander.moalla" target="_blank">Skander Moalla</a><sup>*</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.caglarg.com/" target="_blank">Caglar Gulcehre</a>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">CLAIRE, EPFL</span>
+              <span class="eql-cntrb"><small><br><sup>*</sup>Shared first authorship and equal
+                  contributions</small></span>
+            </div>
+
+
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Arxiv PDF link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2507.08068.pdf" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+
+                <!-- Github link -->
+                <span class="link-block">
+                  <a href="https://github.com/CLAIRE-Labo/quantile-reward-policy-optimization/" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- ArXiv abstract Link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2507.08068" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+              </div>
+
+              <div style="display: flex; justify-content: center; margin-top: 30px;">
+                <img src="static/images/logo-epfl.svg" alt="EPFL logo" style="margin-right: 50px;  width: 150px;">
+                <a href="https://github.com/CLAIRE-Labo/" target="_blank"><img src="static/images/logo-claire.png"
+                    alt="CLAIRE logo" style="width: 100px"></a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser" style="margin-top: -20px;">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="static/images/sketch.png">
+        <h2 class="subtitle has-text-centered">
+          QRPO learns from pointwise absolute rewards like GRPO/PPO but preserves the simplicity and offline applicability of
+          DPO-like methods.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Aligning large language models with pointwise absolute rewards has so far required online, on-policy
+              algorithms such as PPO and GRPO.
+              In contrast, simpler methods that can leverage offline or off-policy data, such as DPO and REBEL,
+              are limited to learning from preference pairs or relative signals.
+            </p>
+            <p>
+              To bridge this gap, we introduce <em>Quantile Reward Policy Optimization</em> (QRPO), which learns
+              from pointwise absolute rewards while preserving the simplicity and offline applicability of
+              DPO-like methods.
+              QRPO uses quantile rewards to enable regression to the closed-form solution of the KL-regularized RL
+              objective.
+              This reward yields an analytically tractable partition function, removing the need for relative
+              signals to cancel this term.
+            </p>
+            <p>
+              Moreover, QRPO scales with increased compute to estimate quantile rewards, opening a new dimension
+              for pre-computation scaling.
+              Empirically, QRPO consistently achieves top performance on chat and coding evaluations—reward model
+              scores, AlpacaEval 2, and LeetCode—compared to DPO, REBEL, and SimPO across diverse datasets and
+              8B-scale models.
+              Finally, we find that training with robust rewards instead of converting them to preferences induces
+              less length bias.
+            </p>
+            <img src="static/images/slide-1.png">
+          </div>
+        </div>
+      </div>
+  </section>
+  <!-- End paper abstract -->
+
+  <section class="section ">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">What does it bring?</h2>
+          <h3 class="title is-4">We can finally do LLM RL fine-tuning with rewards and leverage offline/off-policy data!
+          </h3>
+          <div class="content has-text-justified">
+            <p>
+              ❌ You want rewards, but GRPO only works online?<br>
+              ❌ You want offline, but DPO is limited to preferences?<br>
+              ✅ QRPO can do both!<br>
+            </p>
+          </div>
+          <img src="static/images/table-1.png" class="desktop-resize-80"
+            style="display: block; margin-left: auto; margin-right: auto;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">How do we do that?</h2>
+          <h3 class="title is-4">We tackle the infamous "...partition function is known to be intractable..." problem 🧐
+          </h3>
+          <div class="content has-text-justified">
+            <p>
+              This is the problem that limits DPO-like methods to pairwise data.
+            </p>
+            <p>
+              We solve it thanks to 3 insights! 💡
+            </p>
+            <p>
+              1️⃣ The "infinite sum over all possible LLM generations" argument is a myth. We rewrite the partition
+              function Z in terms of rewards, revealing that Z is, in fact, given by the moment generating function
+              (MGF) of the reward distribution!<br>
+              2️⃣ Knowing the reward distribution => knowing the MGF => knowing Z 🔐<br>
+              3️⃣ We can transform the reward distribution to make it known. Reward quantiles have a uniform
+              distribution! 🔑
+            </p>
+            <img src="static/images/Z-partition.png" class="desktop-resize-50"
+              style="display: block; margin-left: auto; margin-right: auto;">
+          </div>
+          <h3 class="title is-4">The result: Quantile Reward Policy Optimization 🚀</h3>
+          <div class="content has-text-justified">
+            <p>
+              QRPO transforms rewards to quantile rewards for which we derive Z, and can then fit the closed-form
+              optimal RL solution with a simple regression! 📉
+            </p>
+            <p>
+              No preference pairs. Any data distribution.
+            </p>
+            <img src="static/images/sketch.png" class="desktop-resize-90"
+              style="display: block; margin-left: auto; margin-right: auto;">
+            <img src="static/images/algo.png" class="desktop-resize-90"
+              style="display: block; margin-left: auto; margin-right: auto; margin-top: 5px">
+            <img src="static/images/code.png" style="margin-top: -10px;margin-bottom: -30px;">
+          </div>
+          <h3 class="title is-4">
+            Obviously, nothing comes for free, but we give you a great deal! 🤝
+          </h3>
+          <div class="content">
+            <ol>
+              <li>QRPO does not need many reference rewards to have effective estimated quantile rewards.
+                 For high-quality
+                offline datasets 1-3 are enough.</li>
+              <li>And you can scale this number to get more signal from off-policy data that you generate from your reference model! 📈</li>
+            </ol>
+          </div>
+          <img src="static/images/figure-3.png" class="desktop-resize-90"
+            style="display: block; margin-left: auto; margin-right: auto;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">How does it perform empirically?</h2>
+          <h3 class="title is-4">🥇 QRPO achieves top performance in chat and coding</h3>
+          <div class="content has-text-justified">
+            <p>
+              QRPO achieves top performance in chat and coding compared to DPO, REBEL, and SimPO, each capturing a
+              different way to learn from the reward signal (preference, reward difference, length normalization).
+            </p>
+            <img src="static/images/table-3.png"
+              style="display: block; margin-left: auto; margin-right: auto;">
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <img src="static/images/figure-1.png" class="desktop-resize-110"
+            style="display: block; margin-left: 0; margin-right: auto;">
+        </div>
+        <div class="column is-half">
+          <img src="static/images/table-2.png" class="desktop-resize-84"
+            style="display: block; margin-left: auto; margin-right: 0;">
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h3 class="title is-4">Training with robust rewards is better than converting to preferences</h3>
+          <div class="content has-text-justified">
+            <p>
+              💬 The reward model we use has been trained to be robust to length bias, and we see that this is preserved
+              in QRPO and REBEL which use rewards. But when compressed to preferences for DPO and SimPO, it leads to the
+              typical length bias trend, despite the reduction in overall length.
+            </p>
+            <img src="static/images/figure-4.png" class="desktop-resize-60"
+              style="display: block; margin-left: auto; margin-right: auto;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero ">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">More to discover!</h2>
+          <h3 class="title is-4">Is QRPO still subject to the "chosen probabilities decreasing" problem?</h3>
+          <div class="content has-text-justified">
+            <p>
+              Our understanding of the KL-regularized closed-form solution also gives insights into the "DPO chosen
+              probabilities decreasing" problem! 🤔
+            </p>
+            <p>
+              For QRPO, this is not a mystery anymore; we know exactly where the probabilities should move, and we
+              explain how it's normal for them to decrease when the regularization (beta) is very low.
+              This is simply because the target policy is much further away from the training support 🎯
+            </p>
+            <p>
+              And we show that for relatively high beta, with good data, the probabilities increase as predicted 💯
+            </p>
+            <img src="static/images/figure-5.png"
+              style="display: block; margin-left: auto; margin-right: auto;">
+            <img src="static/images/figure-6.png"
+              style="display: block; margin-left: auto; margin-right: auto;">
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h3 class="title is-4">QRPO is a framework. You can shape the optimal policy! 🎛️</h3>
+          <div class="content has-text-justified">
+            <p>
+              We derive a framework around QRPO for using transformations on top of the quantile reward.
+              Each transformation reshapes the reward distribution and affects the properties of the optimal policy,
+               while having a tractable partition function.
+            </p>
+            <img src="static/images/framework.png" class="desktop-resize-60"
+              style="display: block; margin-left: auto; margin-right: auto;">
+          </div>
+          <p>
+            We derive the partition functions for many of them.
+          </p>
+          <img src="static/images/table-4.png" class="desktop-resize-50"
+              style="display: block; margin-left: auto; margin-right: auto; margin-top: 20px;">
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h3 class="title is-4">What do these optimal policies look like? 👀</h3>
+          <div class="content has-text-justified">
+            <p>
+              Theoretically, we show the equivalence of a family of transformations in the framework including identity and log,
+              allowing us to qualitatively interpret the quantile reward optimal policy as a Best-of-N policy 🎯
+            </p>
+            <p>
+              Empirically, each transformation brings different dynamics and it's an exciting open question to compare all of them! 🕵️
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!--BibTex citation -->
+  <section class="section hero is-light" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre>
+<code>@article{matrenok2025qrpo,
+  title={Quantile Reward Policy Optimization: Alignment with Pointwise Regression and Exact Partition Functions},
+  author={Simon Matrenok and Skander Moalla and Caglar Gulcehre},
+  year={2025},
+  eprint={2507.08068},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  url={https://arxiv.org/abs/2507.08068},
+}</code>
+</pre>
+    </div>
+  </section>
+  <!--End BibTex citation -->
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                target="_blank">Academic
+                Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io"
+                target="_blank">Nerfies</a> project page.
+              <br>This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CreativeCommons
+                Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Default Statcounter code for QRPO
+https://claire-labo.github.io/quantile-reward-policy-optimization -->
+<script type="text/javascript">
+var sc_project=13150673;
+var sc_invisible=1;
+var sc_security="488e893b";
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img class="statcounter"
+src="https://c.statcounter.com/13150673/0/488e893b/1/" alt="Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+
+</body>
+
+</html>
