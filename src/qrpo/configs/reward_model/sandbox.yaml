@@ -1,0 +1,14 @@
+# @package _global_
+
+reward_model_args:
+  port:  8565
+  cpu_limit: 1
+  memory_limit_mb_per_cpu: 1024
+  time_limit: 1
+  min_tests: 20
+  max_tests: 100
+  # To use if need tokenizer (for length computation etc.)
+  model_name_or_path: ${data_dir}/shared/models/llama
+
+tokenizer_args:
+  pad_token_id: 128004  #  '<|finetune_right_pad_id|>'

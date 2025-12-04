@@ -1,0 +1,13 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+
+
+######################################################################
+checkpoint_path: ${outputs_dir}/shared/train_qrpo/temp1-final/llama-nosft-magpieair-armorm-temp1-ref50-offline-armorm-dpo-default-applytempFalse-numref6-lr1e-06-beta0.1/checkpoints/c041ead6de531433/checkpoint-0
+seed: 43

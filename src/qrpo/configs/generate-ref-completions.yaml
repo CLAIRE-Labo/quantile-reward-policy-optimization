@@ -1,0 +1,32 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Model (from the configs/model/ directory).
+  - model: mistral
+  # Dataset (from the configs/dataset/ directory).
+  - dataset: magpieair-armorm
+
+
+######################################################################
+
+model_args:
+  model_name_or_path: ${outputs_dir}/shared/train_sft/sft-chosen/llama-nosft-magpieair-armorm/checkpoints/861b236c6e408fff
+
+split: train # train or eval
+partition_start_idx: 0 # (node level) The start index of the partition to generate completions for.
+partition_end_idx: 0
+subpartition_number: 0 # (gpu level) subsection in the partition to process
+n_completions: 50 # Number of completions to generate for each prompt.
+max_new_tokens: 2048 # Maximum number of tokens to generate for each completion.
+save_interval: 256 # Saving every save_interval prompt (should be multiple of batch_size)
+
+
+job_subdir_prefix: null
+job_subdir: ${job_subdir_prefix}/${subpartition_number}
+
+seed: 42

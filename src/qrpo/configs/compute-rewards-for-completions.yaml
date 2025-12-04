@@ -1,0 +1,31 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Reward model (from the configs/reward_model/ directory).
+  - reward_model: armorm
+  # Dataset (from the configs/dataset/ directory).
+  - dataset: magpieair-armorm
+
+
+######################################################################
+
+split: ${dataset_args.train_split.name} # split name in the dataset.
+partition_start_idx: 0 # (node level) The start index of the partition to generate completions for.
+partition_end_idx: 0
+subpartition_number: 0 # (gpu level) subsection in the partition to process
+save_interval: 256 # Saving every save_interval prompt (should be multiple of batch_size)
+batch_size: 64
+max_seq_length: 2048
+dataset_id: null
+dataset_path: ${data_dir}/shared/datasets-with-ref-completions/merged/${dataset_id}
+
+# Used instead of job_subdir, because job_subdir will be populated at runtime with the subpartition number
+job_subdir_prefix: null
+job_subdir: ${job_subdir_prefix}/${subpartition_number}
+
+seed: 42

@@ -1,0 +1,20 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Reward model (from the configs/reward_model/ directory).
+  - reward_model: sandbox
+  # Dataset (from the configs/dataset/ directory).
+  - dataset: leetcode
+
+
+######################################################################
+
+seed: 42
+max_seq_length: 2048
+dataset_id: leetcode-sandbox
+save_path: ${data_dir}/shared/datasets-with-chosen-rewards/merged/${dataset_id}

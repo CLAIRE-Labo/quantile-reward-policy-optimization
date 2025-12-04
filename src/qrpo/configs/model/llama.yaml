@@ -1,0 +1,22 @@
+# @package _global_
+
+# allenai/Llama-3.1-Tulu-3-8B-SFT
+
+model_args:
+  torch_dtype: bfloat16
+  model_name_or_path: ${data_dir}/shared/models/llama
+  attn_implementation: flash_attention_2
+  trust_remote_code: true
+  use_peft: false
+
+tokenizer_args:
+  pad_token_id: 128004  #  '<|finetune_right_pad_id|>'
+
+model_generation_config:
+  temperature: 1.0
+  top_p: 1.0
+
+model_eval_generation_config:
+  # From model config, same as generation_config.json
+  temperature: 0.6
+  top_p: 0.9

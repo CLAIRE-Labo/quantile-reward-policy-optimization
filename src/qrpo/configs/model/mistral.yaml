@@ -1,0 +1,34 @@
+# @package _global_
+
+# mistralai/Mistral-7B-Instruct-v0.2
+
+model_args:
+  torch_dtype: bfloat16
+  model_name_or_path: ${data_dir}/shared/models/mistral
+  attn_implementation: flash_attention_2
+  trust_remote_code: true
+  use_peft: false
+  lora_task_type: CAUSAL_LM
+  lora_r: 64
+  lora_alpha: 32
+  lora_dropout: 0.1 # Not clear why we want lora dropout
+  lora_target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+tokenizer_args:
+  pad_token_id: 0  # <unk>
+
+model_generation_config:
+  temperature: 1.0
+  top_p: 1.0
+
+model_eval_generation_config:
+  # No official source. Popular on https://openrouter.ai/ but website doesn't show anymore this data.
+  # also suggested by LeChat ...
+  temperature: 0.7
+  top_p: 0.9

@@ -1,0 +1,20 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Dataset (from the configs/dataset/ directory).
+  - dataset: magpieair-armorm
+
+
+######################################################################
+
+eval_checkpoint_selection_indices_path: ${dataset_args.dataset_path}/eval-checkpoint-selection-indices
+eval_reward_reporting_indices_path: ${dataset_args.dataset_path}/eval-reward-reporting-indices
+
+reward_reporting_data_fraction: 0.5
+
+seed: 43

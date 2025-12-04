@@ -217,3 +217,17 @@ __marimo__/
 
 # macOS
 .DS_Store
+
+# Project
+data/*
+!data/README.md
+
+outputs/*
+!outputs/README.md
+
+wandb
+**/*.out
+
+third-party
+reproducibility-scripts/**/*.out
+reproducibility-scripts/**/*.err

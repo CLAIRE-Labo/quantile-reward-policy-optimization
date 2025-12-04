@@ -1,0 +1,81 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Model (from the configs/model/ directory).
+  - model: llama
+  # Dataset (from the configs/dataset/ directory).
+  - dataset: magpieair-armorm
+
+######################################################################
+
+# model_args from the model config file
+# reward_model_args from the reward model config file
+# dataset args from the dataset config file
+
+dataset_args:
+  debug_oom: false # Reorder the dataset with largest batch first to test OOM
+  debug_subsample:
+    train: 0
+    eval: 0
+script_args:
+  dataset_name: ${dataset_args.dataset_path}
+  dataset_train_split: ${dataset_args.train_split.name}
+  dataset_test_split: ${dataset_args.eval_split.name}
+training_args:
+  bf16: true
+  max_prompt_length: 2048
+  max_completion_length: 2048
+  max_length: 2048
+  learning_rate: 5.0e-7
+  max_grad_norm: 1e5  # Disable gradient clipping but still log grad norm. (-1 doesn't log).
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.1
+  num_train_epochs: 1
+  loss_type: qrpo
+  qrpo_transform_type: log
+  qrpo_loss_type: mse
+  qrpo_sample_selector: both
+  beta: 0.003
+  simpo_gamma_beta_ratio: 0.5
+  precompute_ref_log_probs: false
+  temperature: ${model_generation_config.temperature}
+  apply_temperature_in_training: false
+  top_p: ${model_generation_config.top_p}
+  dataloader_drop_last: true
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: true
+  gradient_checkpointing_kwargs:
+    use_reentrant: false # https://pytorch.org/docs/stable/checkpoint.html, https://github.com/huggingface/trl/issues/1348
+  logging_first_step: true
+  logging_steps: 1
+  eval_strategy: steps
+  eval_steps: 50
+  eval_on_start: true
+  per_device_eval_batch_size: 1
+  generate_during_eval: false
+  save_strategy: steps
+  save_steps: 100
+  save_only_model: true # Not interested in resuming.
+  num_ref_rewards: 6
+  report_to: wandb
+  seed: ${seed}
+  dataloader_num_workers: ${training_args.per_device_train_batch_size}
+
+seed: 27
+
+resuming:
+  resume: false
+  exclude_keys:
+    - run_dir
+    - data_dir
+    - outputs_dir
+    - resuming_dir
+    - wandb
+    - resuming.exclude_keys
+    - training_args.logging_dir

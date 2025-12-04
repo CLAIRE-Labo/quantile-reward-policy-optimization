@@ -1,0 +1,22 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Dataset (from the configs/dataset/ directory).
+  - dataset: magpieair-armorm
+
+
+######################################################################
+
+dataset_id: null
+new_dataset_id: null
+mode: offpolicy2best
+k_pairs: 10
+exp: ""
+dataset_path: ${data_dir}/shared/datasets-with-ref-rewards${exp}/merged/${dataset_id}
+save_path: ${data_dir}/shared/datasets-with-ref-rewards${exp}/merged/${new_dataset_id}
+seed: 42

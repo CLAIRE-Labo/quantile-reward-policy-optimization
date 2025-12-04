@@ -1,0 +1,21 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Dataset (from the configs/dataset/ directory).
+  - dataset: magpieair
+
+
+######################################################################
+
+dataset_id: null
+dataset_type: null
+dataset_path: ${data_dir}/shared/${dataset_type}/${dataset_id}
+save_path: ${data_dir}/shared/${dataset_type}/merged/${dataset_id}
+is_partitioned: True
+is_subpartitioned: True
+seed: 42

@@ -1,0 +1,26 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Reward model (from the configs/reward_model/ directory).
+  - reward_model: sandbox
+  # Dataset (from the configs/dataset/ directory).
+  - dataset: leetcode-sandbox
+
+
+######################################################################
+
+split: ${dataset_args.train_split.name} # split name in the dataset.
+partition_start_idx: 0 # (node level) The start index of the partition to generate completions for.
+partition_end_idx: 0
+save_interval: 256 # Saving every save_interval prompt (should be multiple of batch_size)
+batch_size: 250 # Number of cpus available for code execution.
+dataset_num_ref_rewards: 50 # Number of reference completions to in each prompt.
+dataset_id: null
+dataset_path: ${data_dir}/shared/datasets-with-ref-completions-code/merged/${dataset_id}
+
+seed: 42

@@ -1,0 +1,18 @@
+# @package _global_
+
+# newfacade/LeetCodeDataset
+
+dataset_args:
+  dataset_path: ${data_dir}/shared/datasets-with-chosen-rewards/merged/leetcode-sandbox
+  train_split:
+    name: train
+    start: 0
+    end: 2563
+  eval_split:
+    name: test
+    start: 0
+    end: 223
+
+training_args:
+  eval_steps: 40
+  save_steps: 40

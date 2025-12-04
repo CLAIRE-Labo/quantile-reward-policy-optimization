@@ -1,0 +1,19 @@
+# @package _global_
+
+# HuggingFaceH4/ultrafeedback_binarized
+
+dataset_args:
+  dataset_path: ${data_dir}/shared/datasets/ultrafeedback
+  train_split:
+    name: train_prefs
+    start: 0
+    end: 61135
+  eval_split:
+    name: test_prefs
+    start: 0
+    end: 2000
+
+
+training_args:
+  eval_steps: 100
+  save_steps: 100

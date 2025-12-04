@@ -1,0 +1,18 @@
+# @package _global_
+
+# Magpie-Align/Magpie-Pro-DPO-100K-v0.1
+
+dataset_args:
+  dataset_path: ${data_dir}/shared/datasets/magpieair
+  train_split:
+    name: train
+    start: 0
+    end: 98000
+  eval_split:
+    name: test
+    end: 2000
+    start: 0
+
+training_args:
+  eval_steps: 160
+  save_steps: 160

@@ -1,0 +1,11 @@
+name: sandbox-server
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - fastapi==0.115.6
+      - uvicorn==0.34.0
+      - requests==2.32.3
+      - hydra-core==1.3.2

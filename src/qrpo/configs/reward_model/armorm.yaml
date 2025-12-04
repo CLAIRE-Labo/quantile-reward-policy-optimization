@@ -1,0 +1,7 @@
+# @package _global_
+
+reward_model_args:
+  torch_dtype: bfloat16
+  model_name_or_path: ${data_dir}/shared/models/armorm
+  attn_implementation: flash_attention_2
+  trust_remote_code: true

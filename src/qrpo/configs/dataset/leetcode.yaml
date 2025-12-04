@@ -1,0 +1,18 @@
+# @package _global_
+
+# newfacade/LeetCodeDataset
+
+dataset_args:
+  dataset_path: ${data_dir}/shared/datasets/leetcode
+  train_split:
+    name: train
+    start: 0
+    end: 2641
+  eval_split:
+    name: test
+    start: 0
+    end: 228
+
+training_args:
+  eval_steps: 20
+  save_steps: 20

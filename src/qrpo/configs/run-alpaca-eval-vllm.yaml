@@ -1,0 +1,24 @@
+# An example config file for an experiment.
+# Keep this, it's used as an example to run the code after a user installs the project.
+
+defaults:
+  # Common setup.
+  - setup
+  # This file.
+  - _self_
+  # Model (from the configs/model/ directory).
+  - model: llama-magpieair-nosft
+  # Dataset (from the configs/dataset/ directory).
+
+
+######################################################################
+
+model_name: llama-magpieair-nosft
+max_tokens: 2048 # Maximum number of tokens to generate for each completion.
+tensor_parallel_size: 4
+checkpoint_step: 0
+
+job_subdir_prefix: null
+job_subdir: ${job_subdir_prefix}/
+
+seed: 43
