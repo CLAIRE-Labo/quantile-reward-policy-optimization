@@ -1,6 +1,6 @@
 # Data
 
-## Base datasets
+## Base datasets and models
 
 A reference of the commands used to obtain the initial datasets and models.
 
@@ -27,4 +27,4 @@ huggingface-cli download mistralai/Mistral-7B-Instruct-v0.2 --local-dir data/sha
 
 ## Datasets with references completions and rewards
 
-We will release the datasets with references completions and reference rewards for all dataset-model combinations soon.
+Find the datasets with reference completions and rewards for all datasets, models, and reward models on [HuggingFace](https://huggingface.co/collections/skandermoalla/qrpo-reference-datasets).
